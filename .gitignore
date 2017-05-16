@@ -1,0 +1,11 @@
+#Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+
+#Migrations
+migrations/
+
+*.db
+*.sqlite3
