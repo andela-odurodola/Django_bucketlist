@@ -1,10 +1,19 @@
 from django.db import models
 
+class User(models.Model):
+    username = models.CharField(max_length=25, unique=True)
+    password = models.CharField(max_length=16)
+
+    def __repr__(self):
+        return "<User id '{}': '{}'>".format(self.id, self.username)
+
+
 class BucketList(models.Model):
     name = models.CharField(max_length=300, null=False)
-    bucketitems = models.ForeignKey('BucketListItem', related_name='bucketlistitem', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey('User', related_name='user', on_delete=models.CASCADE)
+    
 
     def __repr__(self):
         return "<BucketList id '{}': '{}'>".format(self.id, self.name)
@@ -12,6 +21,7 @@ class BucketList(models.Model):
 
 class BucketListItem(models.Model):
     name = models.CharField(max_length=300, null=False)
+    bucketlist_id = models.ForeignKey('BucketList', related_name='items', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     done = models.BooleanField(default=False) 
@@ -20,10 +30,4 @@ class BucketListItem(models.Model):
         return "<BucketListItem id '{}': '{}'>".format(self.id, self.name)
 
 
-class User(models.Model):
-    username = models.CharField(max_length=25, unique=True)
-    password = models.CharField(max_length=16)
-    bucketlists = models.ForeignKey('Bucketlist', related_name='bucketlist', on_delete=models.CASCADE)
 
-    def __repr__(self):
-        return "<User id '{}': '{}'>".format(self.id, self.username)
