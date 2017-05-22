@@ -14,14 +14,13 @@ class BucketList(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey('User', related_name='user', on_delete=models.CASCADE)
     
-
     def __repr__(self):
         return "<BucketList id '{}': '{}'>".format(self.id, self.name)
 
 
 class BucketListItem(models.Model):
     name = models.CharField(max_length=300, null=False)
-    bucketlist_id = models.ForeignKey('BucketList', related_name='items', on_delete=models.CASCADE)
+    bucketlist_id = models.ForeignKey('BucketList', related_name='item', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     done = models.BooleanField(default=False) 
